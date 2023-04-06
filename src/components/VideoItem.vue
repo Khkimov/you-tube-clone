@@ -1,5 +1,5 @@
 <template>
-  <a href="#" class="mb-7 group">
+  <a class="mb-7 group">
     <VideoItemThumbnail :index="props.index" />
     <VideoItemInfo :index="props.index" />
   </a>

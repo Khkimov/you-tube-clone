@@ -15,7 +15,10 @@
     >
       <div
           v-show="isOpen"
-          class="absolute top-9 -right-full sm:right-0 bg-white w-72 border border-t-0">
+          ref="dropdownSetting"
+          tabindex="-1"
+          @keydown.esc="isOpen = false"
+          class="absolute top-9 -right-full sm:right-0 bg-white w-72 border border-t-0 focus:outline-none">
         <section class="py-2 border-b">
           <ul>
             <DropdownSettingsListItem
@@ -38,7 +41,7 @@
 
 <script setup>
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
-import {onMounted, ref} from "vue";
+import {nextTick, onMounted, ref, watch} from "vue";
 import BaseIcon from "./BaseIcon.vue";
 
 const listItems = ref([
@@ -91,6 +94,7 @@ const listItems = ref([
 
 const isOpen = ref(false)
 const root = ref(null)
+const dropdownSetting = ref(null)
 
 onMounted(() => {
   window.addEventListener('click', event => {
@@ -98,5 +102,9 @@ onMounted(() => {
       isOpen.value = false
     }
   })
+})
+
+watch(() => isOpen.value, (newValue, oldValue) => {
+  nextTick(() => isOpen.value && dropdownSetting.value.focus())
 })
 </script>
