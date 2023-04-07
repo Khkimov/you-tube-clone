@@ -1,10 +1,12 @@
 <template>
   <div class="relative" ref="root">
+    <BaseTooltip text="Settings">
     <button
         @click="isOpen = !isOpen"
         class="relative p-2 focus:outline-none">
       <BaseIcon name="dotsVertical" class="w-5 h-5"/>
     </button>
+    </BaseTooltip>
     <transition
         enter-active-class="transition ease-out duration-100"
         enter-from-class="transition opacity-0 scale-95"
@@ -18,7 +20,7 @@
           ref="dropdownSetting"
           tabindex="-1"
           @keydown.esc="isOpen = false"
-          class="absolute top-9 -right-full sm:right-0 bg-white w-72 border border-t-0 focus:outline-none">
+          :class="dropdownClasses">
         <section class="py-2 border-b">
           <ul>
             <DropdownSettingsListItem
@@ -41,8 +43,9 @@
 
 <script setup>
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
-import {nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import BaseIcon from "./BaseIcon.vue";
+import BaseTooltip from "./BaseTooltip.vue";
 
 const listItems = ref([
   {
@@ -106,5 +109,20 @@ onMounted(() => {
 
 watch(() => isOpen.value, (newValue, oldValue) => {
   nextTick(() => isOpen.value && dropdownSetting.value.focus())
+})
+
+const dropdownClasses = computed(() => {
+  return [
+    'z-10',
+    'absolute',
+    'top-9',
+    '-right-full',
+    'sm:right-0',
+    'bg-white',
+    'w-72',
+    'border',
+    'border-t-0',
+    'focus:outline-none'
+  ]
 })
 </script>

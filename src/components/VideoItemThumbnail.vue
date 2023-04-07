@@ -8,7 +8,6 @@
 </template>
 
 <script setup>
-import BaseIcon from "./BaseIcon.vue";
 import VideoItemThumbnailButton from "./VideoItemThumbnailButton.vue";
 
 const props = defineProps({
