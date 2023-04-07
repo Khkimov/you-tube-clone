@@ -50,9 +50,13 @@ onMounted(() => {
       isOpen.value = false
     }
   })
+
+  // window.addEventListener('scroll', () => (isOpen.value = false))
 })
 
 watch(() => isOpen.value, (newValue, oldValue) => {
+  // document.body.classList.toggle('overflow-hidden')
+
   nextTick(() => isOpen.value && dropdown.value.focus())
 })
 
@@ -70,6 +74,7 @@ const getPositionClasses = (event) => {
   return [
       getTopClass(event),
       getRightClass(event),
+      getBottomClass(event),
       getLeftClass(event)
   ]
 }
@@ -80,7 +85,7 @@ const getTopClass = (event) => {
   const dropdownHeight = dropdown.value.offsetHeight
 
   if (window.innerHeight - clickCoordY < dropdownHeight) {
-    return '-top-14'
+    return 'top-auto'
   }
 
   if (window.innerHeight - clickCoordY < dropdownHeight + buttonHeight) {
@@ -110,6 +115,16 @@ const getRightClass = (event) => {
 
   return 'right-0'
 }
+const getBottomClass = (event) => {
+  const clickCoordY = event.clientY
+  const dropdownHeight = dropdown.value.offsetHeight
+
+  if (window.innerHeight - clickCoordY < dropdownHeight) {
+    return 'bottom-9'
+  }
+
+  return 'bottom-auto'
+}
 const getLeftClass = (event) => {
   const clickCoordY = event.clientY
   const clickCoordX = event.clientX
@@ -134,14 +149,12 @@ const getLeftClass = (event) => {
 
 const buttonClasses = computed(() => {
   return [
-    '-mt-1',
-    'ml-auto',
     'p-1',
-    'opacity-0',
-    'group-hover:opacity-100',
     'text-gray-500',
     'hover:text-gray-700',
-    'focus:outline-none'
+    'focus:outline-none',
+    'group-hover:opacity-100',
+      isOpen.value ? 'opacity-100' : 'opacity-0'
   ]
 })
 
