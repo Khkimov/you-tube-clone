@@ -7,13 +7,18 @@
           :label="listItem.label"
           :icon="listItem.icon"
           :with-sub-menu="listItem.withSubMenu"
-          @click.stop="emit('select-menu', 'appearance')"
+          @click.stop="emit('select-menu', listItem.id)"
       />
     </ul>
   </section>
   <section class="py-2">
     <ul>
-      <DropdownSettingsListItem :label="listItems[8].label" :with-sub-menu="listItems[8].withSubMenu"/>
+      <DropdownSettingsListItem
+          :label="listItems[8].label"
+          :icon="listItems[8].icon"
+          :with-sub-menu="listItems[8].withSubMenu"
+          @click.stop="emit('select-menu', listItems[8].id)"
+      />
     </ul>
   </section>
 </template>
@@ -22,50 +27,59 @@
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import {ref} from "vue";
 
-const emit = defineEmits(['select-menu', 'appearance'])
+const emit = defineEmits()
 
 const listItems = ref([
   {
+    id: 'appearance',
     label: 'Appearance: Light',
     icon: 'sun',
     withSubMenu: true
   },
   {
+    id: 'language',
     label: 'Language: English',
     icon: 'translate',
     withSubMenu: true
   },
   {
+    id: 'location',
     label: 'Location: TJK',
     icon: 'globeAlt',
     withSubMenu: true
   },
   {
+    id: 'settings',
     label: 'Settings',
     icon: 'cog',
     withSubMenu: false
   },
   {
+    id: 'your_data_in_youTube',
     label: 'Your data in YouTube',
     icon: 'shieldCheck',
     withSubMenu: false
   },
   {
+    id: 'help',
     label: 'Help',
     icon: 'questionMarkCircle',
     withSubMenu: false
   },
   {
+    id: 'send_feedback',
     label: 'Send feedback',
     icon: 'chatAlt',
     withSubMenu: false
   },
   {
+    id: 'keyboard_shortcuts',
     label: 'Keyboard shortcuts',
     icon: 'calculator',
     withSubMenu: false
   },
   {
+    id: 'restricted_mode',
     label: 'Restricted Mode: Off',
     icon: null,
     withSubMenu: true

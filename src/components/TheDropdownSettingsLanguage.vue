@@ -1,17 +1,16 @@
 <template>
   <DropdownSettingsHeader
-      title="Appearance"
+      title="Choose your language"
       @back="emit('select-menu', 'main')"
   />
   <section class="py-2">
-    <div class="text-gray-500 text-xs p-3">Setting applies to this browser only</div>
-    <ul>
+    <ul class="max-h-96 overflow-auto">
       <DropdownSettingsListItem
-          v-for="(theme, themeId) in themes"
-          :key="themeId"
-          :label="theme"
-          :active="themeId === selectedThemeId"
-          @click="selectedThemeId = themeId"
+          v-for="(language, languageId) in languages"
+          :key="languageId"
+          :label="language"
+          :active="languageId === selectedLanguageId"
+          @click="selectedLanguageId = languageId"
       />
     </ul>
   </section>
@@ -22,7 +21,7 @@ import {ref} from "vue";
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
 
-const selectedThemeId = ref(0)
-const themes = ref(['Use device theme', 'Dark theme', 'Light theme'])
+const selectedLanguageId = ref(0)
+const languages = ref(['English', 'Russia'])
 const emit = defineEmits(['select-menu'])
 </script>

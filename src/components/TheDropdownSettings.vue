@@ -2,7 +2,7 @@
   <div class="relative" ref="root">
     <BaseTooltip text="Settings">
     <button
-        @click="isOpen = !isOpen"
+        @click="toggle"
         class="relative p-2 focus:outline-none">
       <BaseIcon name="dotsVertical" class="w-5 h-5"/>
     </button>
@@ -19,7 +19,7 @@
           v-show="isOpen"
           ref="dropdownSetting"
           tabindex="-1"
-          @keydown.esc="isOpen = false"
+          @keydown.esc="close"
           :class="dropdownClasses"
       >
         <TheDropdownSettingsMain
@@ -28,6 +28,18 @@
         />
         <TheDropdownSettingsAppearance
             v-else-if="selectedMenu === 'appearance'"
+            @select-menu="showSelectedMenu"
+        />
+        <TheDropdownSettingsLanguage
+            v-else-if="selectedMenu === 'language'"
+            @select-menu="showSelectedMenu"
+        />
+        <TheDropdownSettingsLocation
+            v-else-if="selectedMenu === 'location'"
+            @select-menu="showSelectedMenu"
+        />
+        <TheDropdownSettingsRestrictedMode
+            v-else-if="selectedMenu === 'restricted_mode'"
             @select-menu="showSelectedMenu"
         />
       </div>
@@ -41,6 +53,9 @@ import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheDropdownSettingsMain from "./TheDropdownSettingsMain.vue";
 import TheDropdownSettingsAppearance from "./TheDropdownSettingsAppearance.vue";
+import TheDropdownSettingsLanguage from "./TheDropdownSettingsLanguage.vue";
+import TheDropdownSettingsLocation from "./TheDropdownSettingsLocation.vue";
+import TheDropdownSettingsRestrictedMode from "./TheDropdownSettingsRestrictedMode.vue";
 
 const isOpen = ref(false)
 const root = ref(null)
@@ -50,10 +65,19 @@ const selectedMenu = ref('main')
 onMounted(() => {
   window.addEventListener('click', event => {
     if (!root.value.contains(event.target)) {
-      isOpen.value = false
+      close()
     }
   })
 })
+
+const open = () => {
+  isOpen.value = true
+}
+const close = () => {
+  isOpen.value = false
+
+  setTimeout(() => selectedMenu.value = 'main', 100)
+}
 
 watch(() => isOpen.value, (newValue, oldValue) => {
   nextTick(() => isOpen.value && dropdownSetting.value.focus())
@@ -61,6 +85,12 @@ watch(() => isOpen.value, (newValue, oldValue) => {
 
 const showSelectedMenu = (selected) => {
   selectedMenu.value = selected
+
+  dropdownSetting.value.focus()
+}
+
+const toggle = () => {
+  isOpen.value ? close() : open()
 }
 
 const dropdownClasses = computed(() => {

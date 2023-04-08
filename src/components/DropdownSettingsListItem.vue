@@ -6,7 +6,7 @@
           :name="iconName"
           class="w-5 h-5 mr-3 text-gray-400"
       />
-      <span :class="{ 'ml-8': !isIconShown }">
+      <span :class="['truncate', 'flex-1', { 'ml-8': props.icon && !isIconShown }]">
         {{ props.label }}
       </span>
       <BaseIcon
@@ -33,7 +33,7 @@ const props = defineProps({
 })
 
 const isIconShown = computed(() => {
-  return props.active || props.icon !== 'check'
+  return props.active || props.icon !== 'check' && props.icon !== null
 })
 
 const iconName = computed(() => {
