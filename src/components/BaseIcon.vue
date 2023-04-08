@@ -9,20 +9,23 @@
     </svg>
 </template>
 
-<script>
+<script setup>
 import icons from "../icons.js";
+import {ref} from "vue";
 
-export default {
-  props: ['name'],
-  data() {
-    return {
-      path: icons[this.name]
-    }
-  }
-}
+const props = defineProps({
+  name: String
+})
+
+const path = ref(icons[props.name])
+
+// export default {
+//   props: ['name'],
+//   data() {
+//     return {
+//       path: icons[this.name]
+//     }
+//   }
+// }
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>
