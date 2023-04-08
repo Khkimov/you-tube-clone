@@ -20,84 +20,32 @@
           ref="dropdownSetting"
           tabindex="-1"
           @keydown.esc="isOpen = false"
-          :class="dropdownClasses">
-        <section class="py-2 border-b">
-          <ul>
-            <DropdownSettingsListItem
-                v-for="listItem in listItems.slice(0, 8)"
-                :key="listItem.label"
-                :label="listItem.label"
-                :icon="listItem.icon"
-                :with-sub-menu="listItem.withSubMenu"/>
-          </ul>
-        </section>
-        <section class="py-2">
-          <ul>
-            <DropdownSettingsListItem :label="listItems[8].label" :with-sub-menu="listItems[8].withSubMenu"/>
-          </ul>
-        </section>
+          :class="dropdownClasses"
+      >
+        <TheDropdownSettingsMain
+            v-if="selectedMenu === 'main'"
+            @select-menu="showSelectedMenu"
+        />
+        <TheDropdownSettingsAppearance
+            v-else-if="selectedMenu === 'appearance'"
+            @select-menu="showSelectedMenu"
+        />
       </div>
     </transition>
   </div>
 </template>
 
 <script setup>
-import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
-
-const listItems = ref([
-  {
-    label: 'Appearance: Light',
-    icon: 'sun',
-    withSubMenu: true
-  },
-  {
-    label: 'Language: English',
-    icon: 'translate',
-    withSubMenu: true
-  },
-  {
-    label: 'Location: TJK',
-    icon: 'globeAlt',
-    withSubMenu: true
-  },
-  {
-    label: 'Settings',
-    icon: 'cog',
-    withSubMenu: false
-  },
-  {
-    label: 'Your data in YouTube',
-    icon: 'shieldCheck',
-    withSubMenu: false
-  },
-  {
-    label: 'Help',
-    icon: 'questionMarkCircle',
-    withSubMenu: false
-  },
-  {
-    label: 'Send feedback',
-    icon: 'chatAlt',
-    withSubMenu: false
-  },
-  {
-    label: 'Keyboard shortcuts',
-    icon: 'calculator',
-    withSubMenu: false
-  },
-  {
-    label: 'Restricted Mode: Off',
-    icon: null,
-    withSubMenu: true
-  }
-])
+import TheDropdownSettingsMain from "./TheDropdownSettingsMain.vue";
+import TheDropdownSettingsAppearance from "./TheDropdownSettingsAppearance.vue";
 
 const isOpen = ref(false)
 const root = ref(null)
 const dropdownSetting = ref(null)
+const selectedMenu = ref('main')
 
 onMounted(() => {
   window.addEventListener('click', event => {
@@ -110,6 +58,10 @@ onMounted(() => {
 watch(() => isOpen.value, (newValue, oldValue) => {
   nextTick(() => isOpen.value && dropdownSetting.value.focus())
 })
+
+const showSelectedMenu = (selected) => {
+  selectedMenu.value = selected
+}
 
 const dropdownClasses = computed(() => {
   return [

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-full h-full">
+  <div class="flex w-full">
     <input
         ref="inputRef"
         type="text"
