@@ -12,13 +12,24 @@
     </p>
     <div class="text-gray-600 font-semibold flex items-center">
       <span class="uppercase mr-2">Active restricted mode</span>
-      <input type="checkbox" />
+      <input
+          type="checkbox"
+          :checked="props.selectedOptions.restrictedMode"
+          @input="selectOption"
+      />
     </div>
   </section>
 </template>
 
 <script setup>
-import {ref} from "vue";
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
-const emit = defineEmits(['select-menu'])
+const emit = defineEmits(['select-menu', 'select-option'])
+const props = defineProps(['selectedOptions'])
+
+function selectOption(event) {
+  emit('select-option', {
+    name: 'restrictedMode',
+    value: event.target.checked
+  })
+}
 </script>

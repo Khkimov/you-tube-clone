@@ -9,7 +9,7 @@ import {computed} from "vue";
 
 const props = defineProps({
   category: {
-    type: Array
+    type: String
   },
   isActive: {
     type: Boolean

@@ -9,8 +9,8 @@
           v-for="(language, languageId) in languages"
           :key="languageId"
           :label="language"
-          :active="languageId === selectedLanguageId"
-          @click="selectedLanguageId = languageId"
+          :active="languageId === props.selectedOptions.languageId"
+          @click="selectOption(languageId)"
       />
     </ul>
   </section>
@@ -21,7 +21,11 @@ import {ref} from "vue";
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
 
-const selectedLanguageId = ref(0)
 const languages = ref(['English', 'Russia'])
-const emit = defineEmits(['select-menu'])
+const emit = defineEmits(['select-menu', 'select-option'])
+const props = defineProps(['selectedOptions'])
+
+const selectOption = (languageId) => {
+  emit('select-option', { name: 'languageId', value: languageId })
+}
 </script>

@@ -22,25 +22,41 @@
           @keydown.esc="close"
           :class="dropdownClasses"
       >
+<!--        <component-->
+<!--            :is="menu"-->
+<!--            @select-menu="showSelectedMenu"-->
+<!--            @select-option="selectOption"-->
+<!--            :selected-options="selectedOptions"-->
+<!--        />-->
         <TheDropdownSettingsMain
             v-if="selectedMenu === 'main'"
             @select-menu="showSelectedMenu"
+            @select-option="selectOption"
+            :selected-options="selectedOptions"
         />
         <TheDropdownSettingsAppearance
             v-else-if="selectedMenu === 'appearance'"
             @select-menu="showSelectedMenu"
+            @select-option="selectOption"
+            :selected-options="selectedOptions"
         />
         <TheDropdownSettingsLanguage
             v-else-if="selectedMenu === 'language'"
             @select-menu="showSelectedMenu"
+            @select-option="selectOption"
+            :selected-options="selectedOptions"
         />
         <TheDropdownSettingsLocation
             v-else-if="selectedMenu === 'location'"
             @select-menu="showSelectedMenu"
+            @select-option="selectOption"
+            :selected-options="selectedOptions"
         />
         <TheDropdownSettingsRestrictedMode
             v-else-if="selectedMenu === 'restricted_mode'"
             @select-menu="showSelectedMenu"
+            @select-option="selectOption"
+            :selected-options="selectedOptions"
         />
       </div>
     </transition>
@@ -48,7 +64,7 @@
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, ref, watch} from "vue";
+import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
 import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheDropdownSettingsMain from "./TheDropdownSettingsMain.vue";
@@ -61,6 +77,24 @@ const isOpen = ref(false)
 const root = ref(null)
 const dropdownSetting = ref(null)
 const selectedMenu = ref('main')
+const dropdownClasses = ref([
+  'z-10',
+  'absolute',
+  'top-9',
+  '-right-full',
+  'sm:right-0',
+  'bg-white',
+  'w-72',
+  'border',
+  'border-t-0',
+  'focus:outline-none'
+])
+const selectedOptions = reactive({
+  themeId: 0,
+  languageId: 0,
+  locationId: 0,
+  restrictedMode: false
+})
 
 onMounted(() => {
   window.addEventListener('click', event => {
@@ -89,22 +123,23 @@ const showSelectedMenu = (selected) => {
   dropdownSetting.value.focus()
 }
 
+const selectOption = (option) => {
+  selectedOptions[option.name] = option.value
+}
+
 const toggle = () => {
   isOpen.value ? close() : open()
 }
 
-const dropdownClasses = computed(() => {
-  return [
-    'z-10',
-    'absolute',
-    'top-9',
-    '-right-full',
-    'sm:right-0',
-    'bg-white',
-    'w-72',
-    'border',
-    'border-t-0',
-    'focus:outline-none'
-  ]
-})
+// const menu = computed(() => {
+//   const menuComponentNames = {
+//     main: 'TheDropdownSettingsMain',
+//     appearance: 'TheDropdownSettingsAppearance',
+//     language: 'TheDropdownSettingsLanguage',
+//     location: 'TheDropdownSettingsLocation',
+//     restricted_mode: 'TheDropdownSettingsRestrictedMode'
+//   }
+//
+//   return menuComponentNames[selectedMenu.value]
+// })
 </script>

@@ -54,7 +54,3 @@ const classes = computed(() => {
 })
 
 </script>
-
-<style lang="scss" scoped>
-
-</style>
