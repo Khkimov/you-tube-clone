@@ -9,8 +9,8 @@
           v-for="(location, locationId) in locations"
           :key="locationId"
           :label="location"
-          :active="locationId === props.selectedOptions.locationId"
-          @click="selectOption(locationId)"
+          :active="locationId === props.selectedOptions.location.id"
+          @click="selectOption({ id: locationId, text: location})"
       />
     </ul>
   </section>
@@ -21,12 +21,11 @@ import {ref} from "vue";
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
 
-const selectedLocationId = ref(0)
 const locations = ref(['TJK', 'UK', 'Russia'])
 const emit = defineEmits(['select-menu', 'select-option'])
 const props = defineProps(['selectedOptions'])
 
-const selectOption = (locationId) => {
-  emit('select-option', { name: 'locationId', value: locationId })
+const selectOption = (location) => {
+  emit('select-option', { name: 'location', value: location })
 }
 </script>

@@ -90,10 +90,22 @@ const dropdownClasses = ref([
   'focus:outline-none'
 ])
 const selectedOptions = reactive({
-  themeId: 0,
-  languageId: 0,
-  locationId: 0,
-  restrictedMode: false
+  theme: {
+    id: 0,
+    text: 'Device theme'
+  },
+  language: {
+    id: 0,
+    text: 'English'
+  },
+  location: {
+    id: 0,
+    text: 'TJK'
+  },
+  restrictedMode: {
+    enabled: false,
+    text: 'Off'
+  }
 })
 
 onMounted(() => {

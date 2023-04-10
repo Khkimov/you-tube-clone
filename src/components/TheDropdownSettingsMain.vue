@@ -33,19 +33,19 @@ const props = defineProps(['selectedOptions'])
 const listItems = ref([
   {
     id: 'appearance',
-    label: 'Appearance: Light',
+    label: 'Appearance: ' + props.selectedOptions.theme.text,
     icon: 'sun',
     withSubMenu: true
   },
   {
     id: 'language',
-    label: 'Language: English',
+    label: 'Language: ' + props.selectedOptions.language.text,
     icon: 'translate',
     withSubMenu: true
   },
   {
     id: 'location',
-    label: 'Location: TJK',
+    label: 'Location: ' + props.selectedOptions.location.text,
     icon: 'globeAlt',
     withSubMenu: true
   },
@@ -81,7 +81,7 @@ const listItems = ref([
   },
   {
     id: 'restricted_mode',
-    label: 'Restricted Mode: Off',
+    label: 'Restricted Mode: ' + props.selectedOptions.restrictedMode.text,
     icon: null,
     withSubMenu: true
   }
