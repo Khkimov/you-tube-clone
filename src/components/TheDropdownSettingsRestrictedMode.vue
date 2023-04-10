@@ -1,7 +1,7 @@
 <template>
   <DropdownSettingsHeader
       title="Restricted Mode"
-      @back="emit('select-menu', 'main')"
+      @back="emit('close')"
   />
   <section class="px-3 py-4 space-y-4 text-black text-sm">
     <p>
@@ -23,7 +23,7 @@
 
 <script setup>
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
-const emit = defineEmits(['select-menu', 'select-option'])
+const emit = defineEmits(['close', 'select-option'])
 const props = defineProps(['selectedOptions'])
 
 function selectOption(event) {

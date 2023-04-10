@@ -22,41 +22,17 @@
           @keydown.esc="close"
           :class="dropdownClasses"
       >
-<!--        <component-->
-<!--            :is="menu"-->
-<!--            @select-menu="showSelectedMenu"-->
-<!--            @select-option="selectOption"-->
-<!--            :selected-options="selectedOptions"-->
-<!--        />-->
+        <component
+            v-if="selectedMenu"
+            :is="menu"
+            :selected-options="selectedOptions"
+            @select-option="selectOption"
+            @close="closeMenu"
+        />
         <TheDropdownSettingsMain
-            v-if="selectedMenu === 'main'"
-            @select-menu="showSelectedMenu"
-            @select-option="selectOption"
-            :selected-options="selectedOptions"
-        />
-        <TheDropdownSettingsAppearance
-            v-else-if="selectedMenu === 'appearance'"
-            @select-menu="showSelectedMenu"
-            @select-option="selectOption"
-            :selected-options="selectedOptions"
-        />
-        <TheDropdownSettingsLanguage
-            v-else-if="selectedMenu === 'language'"
-            @select-menu="showSelectedMenu"
-            @select-option="selectOption"
-            :selected-options="selectedOptions"
-        />
-        <TheDropdownSettingsLocation
-            v-else-if="selectedMenu === 'location'"
-            @select-menu="showSelectedMenu"
-            @select-option="selectOption"
-            :selected-options="selectedOptions"
-        />
-        <TheDropdownSettingsRestrictedMode
-            v-else-if="selectedMenu === 'restricted_mode'"
-            @select-menu="showSelectedMenu"
-            @select-option="selectOption"
-            :selected-options="selectedOptions"
+            v-else
+            :menu-items="menuItems"
+            @select-menu="selectMenu"
         />
       </div>
     </transition>
@@ -64,19 +40,15 @@
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, reactive, ref, watch} from "vue";
+import {computed, defineAsyncComponent, nextTick, onMounted, reactive, ref, watch} from "vue";
 import BaseIcon from "./BaseIcon.vue";
 import BaseTooltip from "./BaseTooltip.vue";
 import TheDropdownSettingsMain from "./TheDropdownSettingsMain.vue";
-import TheDropdownSettingsAppearance from "./TheDropdownSettingsAppearance.vue";
-import TheDropdownSettingsLanguage from "./TheDropdownSettingsLanguage.vue";
-import TheDropdownSettingsLocation from "./TheDropdownSettingsLocation.vue";
-import TheDropdownSettingsRestrictedMode from "./TheDropdownSettingsRestrictedMode.vue";
 
 const isOpen = ref(false)
 const root = ref(null)
 const dropdownSetting = ref(null)
-const selectedMenu = ref('main')
+const selectedMenu = ref(null)
 const dropdownClasses = ref([
   'z-10',
   'absolute',
@@ -122,17 +94,16 @@ const open = () => {
 const close = () => {
   isOpen.value = false
 
-  setTimeout(() => selectedMenu.value = 'main', 100)
+  setTimeout(() => closeMenu, 100)
 }
 
-watch(() => isOpen.value, (newValue, oldValue) => {
-  nextTick(() => isOpen.value && dropdownSetting.value.focus())
-})
-
-const showSelectedMenu = (selected) => {
-  selectedMenu.value = selected
+const selectMenu = (menu) => {
+  selectedMenu.value = menu
 
   dropdownSetting.value.focus()
+}
+const closeMenu = () => {
+  selectMenu(null)
 }
 
 const selectOption = (option) => {
@@ -143,15 +114,77 @@ const toggle = () => {
   isOpen.value ? close() : open()
 }
 
-// const menu = computed(() => {
-//   const menuComponentNames = {
-//     main: 'TheDropdownSettingsMain',
-//     appearance: 'TheDropdownSettingsAppearance',
-//     language: 'TheDropdownSettingsLanguage',
-//     location: 'TheDropdownSettingsLocation',
-//     restricted_mode: 'TheDropdownSettingsRestrictedMode'
-//   }
-//
-//   return menuComponentNames[selectedMenu.value]
-// })
+watch(() => isOpen.value, (newValue, oldValue) => {
+  nextTick(() => isOpen.value && dropdownSetting.value.focus())
+})
+
+const menu = computed(() => {
+  const menuComponentNames = {
+    appearance: './TheDropdownSettingsAppearance.vue',
+    language: './TheDropdownSettingsLanguage.vue',
+    location: './TheDropdownSettingsLocation.vue',
+    restricted_mode: './TheDropdownSettingsRestrictedMode.vue'
+  }
+
+  return selectedMenu.value ? defineAsyncComponent(() => import(menuComponentNames[selectedMenu.value.id])) : null
+})
+
+const menuItems = computed(() => {
+  return [
+    {
+      id: 'appearance',
+      label: 'Appearance: ' + selectedOptions.theme.text,
+      icon: 'sun',
+      withSubMenu: true
+    },
+    {
+      id: 'language',
+      label: 'Language: ' + selectedOptions.language.text,
+      icon: 'translate',
+      withSubMenu: true
+    },
+    {
+      id: 'location',
+      label: 'Location: ' + selectedOptions.location.text,
+      icon: 'globeAlt',
+      withSubMenu: true
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: 'cog',
+      withSubMenu: false
+    },
+    {
+      id: 'your_data_in_youTube',
+      label: 'Your data in YouTube',
+      icon: 'shieldCheck',
+      withSubMenu: false
+    },
+    {
+      id: 'help',
+      label: 'Help',
+      icon: 'questionMarkCircle',
+      withSubMenu: false
+    },
+    {
+      id: 'send_feedback',
+      label: 'Send feedback',
+      icon: 'chatAlt',
+      withSubMenu: false
+    },
+    {
+      id: 'keyboard_shortcuts',
+      label: 'Keyboard shortcuts',
+      icon: 'calculator',
+      withSubMenu: false
+    },
+    {
+      id: 'restricted_mode',
+      label: 'Restricted Mode: ' + selectedOptions.restrictedMode.text,
+      icon: null,
+      withSubMenu: true
+    }
+  ]
+})
 </script>

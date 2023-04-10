@@ -2,22 +2,22 @@
   <section class="py-2 border-b">
     <ul>
       <DropdownSettingsListItem
-          v-for="listItem in listItems.slice(0, 8)"
-          :key="listItem.label"
-          :label="listItem.label"
-          :icon="listItem.icon"
-          :with-sub-menu="listItem.withSubMenu"
-          @click.stop="selectMenu(listItem)"
+          v-for="menuItem in props.menuItems.slice(0, 8)"
+          :key="menuItem.label"
+          :label="menuItem.label"
+          :icon="menuItem.icon"
+          :with-sub-menu="menuItem.withSubMenu"
+          @click.stop="selectMenu(menuItem)"
       />
     </ul>
   </section>
   <section class="py-2">
     <ul>
       <DropdownSettingsListItem
-          :label="listItems[8].label"
-          :icon="listItems[8].icon"
-          :with-sub-menu="listItems[8].withSubMenu"
-          @click.stop="selectMenu(listItems[8])"
+          :label="menuItems[8].label"
+          :icon="menuItems[8].icon"
+          :with-sub-menu="menuItems[8].withSubMenu"
+          @click.stop="selectMenu(menuItems[8])"
       />
     </ul>
   </section>
@@ -27,69 +27,12 @@
 import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import {ref} from "vue";
 
-const emit = defineEmits(['select-menu', 'select-option'])
-const props = defineProps(['selectedOptions'])
+const emit = defineEmits(['select-menu'])
+const props = defineProps(['menuItems'])
 
-const listItems = ref([
-  {
-    id: 'appearance',
-    label: 'Appearance: ' + props.selectedOptions.theme.text,
-    icon: 'sun',
-    withSubMenu: true
-  },
-  {
-    id: 'language',
-    label: 'Language: ' + props.selectedOptions.language.text,
-    icon: 'translate',
-    withSubMenu: true
-  },
-  {
-    id: 'location',
-    label: 'Location: ' + props.selectedOptions.location.text,
-    icon: 'globeAlt',
-    withSubMenu: true
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: 'cog',
-    withSubMenu: false
-  },
-  {
-    id: 'your_data_in_youTube',
-    label: 'Your data in YouTube',
-    icon: 'shieldCheck',
-    withSubMenu: false
-  },
-  {
-    id: 'help',
-    label: 'Help',
-    icon: 'questionMarkCircle',
-    withSubMenu: false
-  },
-  {
-    id: 'send_feedback',
-    label: 'Send feedback',
-    icon: 'chatAlt',
-    withSubMenu: false
-  },
-  {
-    id: 'keyboard_shortcuts',
-    label: 'Keyboard shortcuts',
-    icon: 'calculator',
-    withSubMenu: false
-  },
-  {
-    id: 'restricted_mode',
-    label: 'Restricted Mode: ' + props.selectedOptions.restrictedMode.text,
-    icon: null,
-    withSubMenu: true
-  }
-])
-
-const selectMenu = (listItem) => {
-  if (listItem.withSubMenu) {
-    emit('select-menu', listItem.id)
+const selectMenu = (menuItem) => {
+  if (menuItem.withSubMenu) {
+    emit('select-menu', menuItem)
   }
 }
 </script>

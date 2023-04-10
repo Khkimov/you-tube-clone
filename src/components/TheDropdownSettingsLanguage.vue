@@ -1,7 +1,7 @@
 <template>
   <DropdownSettingsHeader
       title="Choose your language"
-      @back="emit('select-menu', 'main')"
+      @back="emit('close')"
   />
   <section class="py-2">
     <ul class="max-h-96 overflow-auto">
@@ -22,7 +22,7 @@ import DropdownSettingsListItem from "./DropdownSettingsListItem.vue";
 import DropdownSettingsHeader from "./DropdownSettingsHeader.vue";
 
 const languages = ref(['English', 'Russia'])
-const emit = defineEmits(['select-menu', 'select-option'])
+const emit = defineEmits(['close', 'select-option'])
 const props = defineProps(['selectedOptions'])
 
 const selectOption = (language) => {
