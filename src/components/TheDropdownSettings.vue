@@ -97,8 +97,8 @@ const close = () => {
   setTimeout(() => closeMenu, 100)
 }
 
-const selectMenu = (menu) => {
-  selectedMenu.value = menu
+const selectMenu = (menuItem) => {
+  selectedMenu.value = menuItem
 
   dropdownSetting.value.focus()
 }
