@@ -3,10 +3,10 @@
     <div class="relative flex w-full">
       <TheSearchInput
           v-model:query="query"
-          @focus="isSearchInputFocused = true"
-          @blur="isSearchInputFocused = false"
+          @change-state="toggleSearchResults"
+          :has-results="results.length"
       />
-      <TheSearchResults v-show="isSearchResultsShow" :results="results" />
+      <TheSearchResults v-show="isSearchResultsShown" :results="results" />
     </div>
     <TheSearchButton />
   </div>
@@ -19,7 +19,8 @@ import TheSearchResults from "./TheSearchResults.vue";
 import {computed, ref} from "vue";
 
 const query = ref('')
-const isSearchInputFocused = ref(false)
+// const isSearchInputFocused = ref(false)
+const isSearchResultsShown = ref(false)
 const keywords = ref([
   'new york giants',
   'new york alicia keys',
@@ -51,7 +52,11 @@ const trimmedQuery = computed(() => {
   return query.value.replace(/\s+/g, ' ').trim()
 })
 
-const isSearchResultsShow = computed(() => {
-  return isSearchInputFocused.value && results.value.length
-})
+// const isSearchResultsShow = computed(() => {
+//   return isSearchInputFocused.value && results.value.length
+// })
+
+const toggleSearchResults = (isSearchInputActive) => {
+  isSearchResultsShown.value = isSearchInputActive && results.value.length
+}
 </script>

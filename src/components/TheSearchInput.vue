@@ -3,16 +3,18 @@
     <input
         ref="inputRef"
         type="text"
-        v-bind="$attrs"
         placeholder="Search"
         :class="classes"
         :value="props.query"
         @input="updateQuery($event.target.value)"
+        @focus="setState(true)"
+        @blur="setState(false)"
+        @keyup.esc="handleEsc"
     >
     <button
         class="absolute top-0 right-0 h-full px-3 focus:outline-none"
         v-show="props.query"
-        @click="updateQuery('')"
+        @click="clear"
     >
       <BaseIcon name="x" class="w-4 h-4"/>
     </button>
@@ -20,21 +22,62 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import BaseIcon from "./BaseIcon.vue";
 
 const inputRef = ref(null)
-const props = defineProps(['query'])
-const emit = defineEmits(['update:query'])
+const isActiveInput = ref(false)
+const props = defineProps(['query', 'hasResults'])
+const emit = defineEmits([
+    'update:query',
+    'change-state'
+])
 
 onMounted(() => {
   if (window.innerWidth < 640) {
     inputRef.value.focus()
   }
+
+  document.addEventListener('keydown', onKeydown)
 })
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKeydown)
+})
+
+const onKeydown = (event) => {
+  const isInputFocused = inputRef.value === document.activeElement
+
+  if (event.code === 'Slash' && !isInputFocused) {
+    event.preventDefault()
+
+    inputRef.value.focus()
+  }
+}
 
 const updateQuery = (query) => {
   emit('update:query', query)
+  setState(isActiveInput.value)
+}
+
+const setState = (isActive) => {
+  isActiveInput.value = isActive
+
+  emit('change-state', isActive)
+}
+
+const handleEsc = () => {
+  if (isActiveInput.value && props.hasResults) {
+    setState(false)
+  } else {
+    inputRef.value.blur()
+  }
+}
+
+const clear = () => {
+  inputRef.value.focus()
+
+  updateQuery('')
 }
 
 const classes = computed(() => {
