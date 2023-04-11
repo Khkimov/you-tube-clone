@@ -3,6 +3,7 @@
     <input
         ref="inputRef"
         type="text"
+        v-bind="$attrs"
         placeholder="Search"
         :class="classes"
         :value="props.query"

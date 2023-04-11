@@ -1,8 +1,12 @@
 <template>
   <div class="flex w-full mr-2">
     <div class="relative flex w-full">
-      <TheSearchInput v-model:query="query" />
-      <TheSearchResults v-show="results.length" :results="results" />
+      <TheSearchInput
+          v-model:query="query"
+          @focus="isSearchInputFocused = true"
+          @blur="isSearchInputFocused = false"
+      />
+      <TheSearchResults v-show="isSearchResultsShow" :results="results" />
     </div>
     <TheSearchButton />
   </div>
@@ -15,6 +19,7 @@ import TheSearchResults from "./TheSearchResults.vue";
 import {computed, ref} from "vue";
 
 const query = ref('')
+const isSearchInputFocused = ref(false)
 const keywords = ref([
   'new york giants',
   'new york alicia keys',
@@ -44,5 +49,9 @@ const results = computed(() => {
 
 const trimmedQuery = computed(() => {
   return query.value.replace(/\s+/g, ' ').trim()
+})
+
+const isSearchResultsShow = computed(() => {
+  return isSearchInputFocused.value && results.value.length
 })
 </script>
