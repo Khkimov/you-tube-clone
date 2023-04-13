@@ -1,15 +1,15 @@
 <template>
   <span :class="classes" @mouseenter="toggleBadge" @mouseleave="toggleBadge">
-      <BaseIcon :name="icon" class="w-5 h-5"/>
+    <BaseIcon :name="props.icon" class="w-5 h-5" />
     <span :class="badgeClasses">
-      <span class="inline-block my-1.5 mx-3">{{ label }}</span>
+      <span class="inline-block my-1.5 mx-3">{{ props.label }}</span>
     </span>
   </span>
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
-import BaseIcon from "./BaseIcon.vue";
+import { computed, ref } from 'vue'
+import BaseIcon from './BaseIcon.vue'
 
 const isBadgeShown = ref(false)
 
@@ -34,7 +34,7 @@ const classes = computed(() => {
     'text-white',
     'm-1',
     'p-1',
-      isBadgeShown.value ? 'rounded-r-sm' : 'rounded-sm'
+    isBadgeShown.value ? 'rounded-r-sm' : 'rounded-sm'
   ]
 })
 

@@ -1,15 +1,15 @@
 <template>
   <li>
     <a href="#" :class="classes">
-      <BaseIcon :name="props.icon" :class="iconClasses"/>
+      <BaseIcon :name="props.icon" :class="iconClasses" />
       <span>{{ props.label }}</span>
     </a>
   </li>
 </template>
 
 <script setup>
-import BaseIcon from "./BaseIcon.vue";
-import {computed} from "vue";
+import BaseIcon from './BaseIcon.vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   label: {
@@ -26,14 +26,8 @@ const props = defineProps({
 const classes = computed(() => {
   const classes = ['flex', 'items-center', 'px-6', 'py-2', 'text-sm']
   return props.isActive
-  ? [
-        ...classes,
-        'font-medium',
-        'text-gray-800',
-        'bg-gray-200',
-        'hover:bg-gray-300'
-      ]
-      : [...classes, 'hover:bg-gray-100']
+    ? [...classes, 'font-medium', 'text-gray-800', 'bg-gray-200', 'hover:bg-gray-300']
+    : [...classes, 'hover:bg-gray-100']
 })
 
 const iconClasses = computed(() => {

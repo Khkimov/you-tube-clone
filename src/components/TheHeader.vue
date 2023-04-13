@@ -2,69 +2,63 @@
   <header :class="classes">
     <div :class="['lg:w-1/4', 'flex', isMobileSearShown ? 'opacity-0' : 'opacity-100']">
       <div class="flex items-center xl:w-64 xl:bg-white pl-4">
-        <button class="mr-3 sm:ml-2 sm:mr-6 focus:outline-none"
-                @click="$emit('toggleSidebar')"
-        >
-          <BaseIcon name="menu"/>
+        <button class="mr-3 sm:ml-2 sm:mr-6 focus:outline-none" @click="$emit('toggleSidebar')">
+          <BaseIcon name="menu" />
         </button>
-        <LogoMain/>
+        <LogoMain />
       </div>
     </div>
-    <TheSearchMobile
-        v-if="isMobileSearShown"
-        @close="closeMobileSearch"
-    />
+    <TheSearchMobile v-if="isMobileSearShown" @close="closeMobileSearch" />
     <div
-        v-else
-        class="hidden sm:flex items-center justify-end p-2.5 pl-8 md:pl-12 md:px-8 flex-1 lg:px-0 lg:w-1/2 max-w-screen-md">
-      <TheSearch/>
+      v-else
+      class="hidden sm:flex items-center justify-end p-2.5 pl-8 md:pl-12 md:px-8 flex-1 lg:px-0 lg:w-1/2 max-w-screen-md"
+    >
+      <TheSearch />
       <BaseTooltip text="Search with your voice">
         <button class="p-2 focus:outline-none">
-          <BaseIcon name="microphone" class="w-5 h-5"/>
+          <BaseIcon name="microphone" class="w-5 h-5" />
         </button>
       </BaseTooltip>
     </div>
-    <div :class="[
-     'flex',
-     'items-center',
-     'justify-end',
-     'lg:w-1/4',
-     'sm:space-x-3',
-     'p-2',
-     'sm:px-4',
-     isMobileSearShown ? 'opacity-0' : 'opacity-100'
-    ]"
+    <div
+      :class="[
+        'flex',
+        'items-center',
+        'justify-end',
+        'lg:w-1/4',
+        'sm:space-x-3',
+        'p-2',
+        'sm:px-4',
+        isMobileSearShown ? 'opacity-0' : 'opacity-100'
+      ]"
     >
       <BaseTooltip text="Search with your voice">
         <button class="sm:hidden p-2 focus:outline-none">
-          <BaseIcon name="microphone" class="w-5 h-5"/>
+          <BaseIcon name="microphone" class="w-5 h-5" />
         </button>
       </BaseTooltip>
       <BaseTooltip text="Search">
-        <button
-            @click.stop="isMobileSearchActive = true"
-            class="sm:hidden p-2 focus:outline-none"
-        >
-          <BaseIcon name="search" class="w-5 h-5"/>
+        <button @click.stop="isMobileSearchActive = true" class="sm:hidden p-2 focus:outline-none">
+          <BaseIcon name="search" class="w-5 h-5" />
         </button>
       </BaseTooltip>
-      <TheDropdownApps/>
-      <TheDropdownSettings/>
-      <ButtonLogin/>
+      <TheDropdownApps />
+      <TheDropdownSettings />
+      <ButtonLogin />
     </div>
   </header>
 </template>
 
 <script setup>
-import TheDropdownApps from "./TheDropdownApps.vue";
-import TheDropdownSettings from "./TheDropdownSettings.vue";
-import LogoMain from "./LogoMain.vue";
-import TheSearch from "./TheSearch.vue";
-import TheSearchMobile from "./TheSearchMobile.vue";
-import ButtonLogin from "./ButtonLogin.vue";
-import BaseIcon from "./BaseIcon.vue";
-import BaseTooltip from "./BaseTooltip.vue";
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import TheDropdownApps from './TheDropdownApps.vue'
+import TheDropdownSettings from './TheDropdownSettings.vue'
+import LogoMain from './LogoMain.vue'
+import TheSearch from './TheSearch.vue'
+import TheSearchMobile from './TheSearchMobile.vue'
+import ButtonLogin from './ButtonLogin.vue'
+import BaseIcon from './BaseIcon.vue'
+import BaseTooltip from './BaseTooltip.vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const isSmallScreen = ref(false)
 const isMobileSearchActive = ref(false)

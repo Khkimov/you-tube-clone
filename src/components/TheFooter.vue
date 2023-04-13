@@ -9,13 +9,11 @@
       {{ link }}
     </a>
   </div>
-  <div class="font-normal text-gray-500">
-    &copy; 2021 Google LLC
-  </div>
+  <div class="font-normal text-gray-500">&copy; 2021 Google LLC</div>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import { ref } from 'vue'
 
 const links = ref([
   'About',

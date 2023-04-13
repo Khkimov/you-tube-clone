@@ -8,8 +8,8 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
-import BaseIcon from "./BaseIcon.vue";
+import { computed } from 'vue'
+import BaseIcon from './BaseIcon.vue'
 
 const props = defineProps({
   isActive: Boolean,
@@ -18,15 +18,7 @@ const props = defineProps({
 })
 
 const classes = computed(() => {
-  const classes = [
-    'flex',
-    'flex-col',
-    'items-center',
-    'px-2',
-    'py-5',
-    'hover:bg-gray-100'
-  ]
+  const classes = ['flex', 'flex-col', 'items-center', 'px-2', 'py-5', 'hover:bg-gray-100']
   return props.isActive ? [...classes, 'text-red-500'] : classes
 })
-
 </script>

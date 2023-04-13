@@ -13,10 +13,10 @@
     </ul>
   </SidebarSection>
   <SidebarSection class="px-8 py-4 font-medium leading-5 border-b">
-      <span class="text-sm">
-        Sign in to like videos, comment, and subscribe.
-      </span>
-    <ButtonLogin class="focus:outline-none flex items-center px-2 py-0.5 mt-3 text-sm text-blue-700 uppercase border border-blue-700 rounded-sm"/>
+    <span class="text-sm"> Sign in to like videos, comment, and subscribe. </span>
+    <ButtonLogin
+      class="focus:outline-none flex items-center px-2 py-0.5 mt-3 text-sm text-blue-700 uppercase border border-blue-700 rounded-sm"
+    />
   </SidebarSection>
   <SidebarSection>
     <SidebarSectionHeading title="Best of YouTube" />
@@ -56,10 +56,9 @@
 </template>
 
 <script setup>
-import SidebarNavItem from "./SidebarNavItem.vue";
-import ButtonLogin from "./ButtonLogin.vue";
-import SidebarSectionHeading from "./SidebarSectionHeading.vue";
-import SidebarSection from "./SidebarSection.vue";
-import TheFooter from "./TheFooter.vue";
-
+import SidebarNavItem from './SidebarNavItem.vue'
+import ButtonLogin from './ButtonLogin.vue'
+import SidebarSectionHeading from './SidebarSectionHeading.vue'
+import SidebarSection from './SidebarSection.vue'
+import TheFooter from './TheFooter.vue'
 </script>

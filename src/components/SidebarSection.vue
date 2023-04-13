@@ -5,6 +5,5 @@
 </template>
 
 <script setup>
-
-import {useAttrs} from "vue";
+import { useAttrs } from 'vue'
 </script>

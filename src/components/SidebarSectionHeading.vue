@@ -1,6 +1,6 @@
 <template>
   <div class="uppercase text-sm font-semibold px-6 py-2">
-    {{props.title}}
+    {{ props.title }}
   </div>
 </template>
 

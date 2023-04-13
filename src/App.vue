@@ -1,25 +1,22 @@
 <template>
   <div class="fixed w-full z-30">
-    <TheHeader @toggle-sidebar="toggleSidebar"/>
-    <TheCategories :is-sidebar-open="isSidebarOpen"/>
+    <TheHeader @toggle-sidebar="toggleSidebar" />
+    <TheCategories :is-sidebar-open="isSidebarOpen" />
   </div>
   <TheSidebarCompact v-if="isCompactSidebarOpen" />
   <TheSidebar v-if="isSidebarOpen" />
-  <TheMobileSidebar
-      :is-open="isSidebarMobileOpen"
-      @close="closeSidebarMobile"
-  />
+  <TheMobileSidebar :is-open="isSidebarMobileOpen" @close="closeSidebarMobile" />
   <TheVideos :is-sidebar-open="isSidebarOpen" />
 </template>
 
 <script setup>
-import TheHeader from "./components/TheHeader.vue";
-import TheSidebarCompact from "./components/TheSidebarCompact.vue";
-import TheSidebar from "./components/TheSidebar.vue";
-import TheMobileSidebar from "./components/TheMobileSidebar.vue";
-import TheCategories from "./components/TheCategories.vue";
-import TheVideos from "./components/TheVideos.vue";
-import {onMounted, ref} from "vue";
+import TheHeader from './components/TheHeader.vue'
+import TheSidebarCompact from './components/TheSidebarCompact.vue'
+import TheSidebar from './components/TheSidebar.vue'
+import TheMobileSidebar from './components/TheMobileSidebar.vue'
+import TheCategories from './components/TheCategories.vue'
+import TheVideos from './components/TheVideos.vue'
+import { onMounted, ref } from 'vue'
 
 const isCompactSidebarActive = ref(false)
 const isSidebarMobileOpen = ref(false)
@@ -55,10 +52,10 @@ const toggleSidebar = () => {
   }
 }
 const openSidebarMobile = () => {
-  return isSidebarMobileOpen.value = true
+  return (isSidebarMobileOpen.value = true)
 }
 
 const closeSidebarMobile = () => {
-  return isSidebarMobileOpen.value = false
+  return (isSidebarMobileOpen.value = false)
 }
 </script>

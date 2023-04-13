@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import VideoItemThumbnail from "./VideoItemThumbnail.vue";
-import VideoItemInfo from "./VideoItemInfo.vue";
+import VideoItemThumbnail from './VideoItemThumbnail.vue'
+import VideoItemInfo from './VideoItemInfo.vue'
 
 const props = defineProps({
   index: {

@@ -1,11 +1,7 @@
 <template>
   <div :class="classes">
     <ul>
-      <li
-          v-for="result in props.results"
-          :key="result"
-          :class="itemClasses"
-      >
+      <li v-for="result in props.results" :key="result" :class="itemClasses">
         {{ result }}
       </li>
     </ul>
@@ -29,14 +25,7 @@ const classes = [
   'shadow-md',
   'pt-4'
 ]
-const itemClasses = [
-  'hover:bg-gray-100',
-  'text-black',
-  'px-3',
-  'py-1',
-  'select-none',
-  'truncate'
-]
+const itemClasses = ['hover:bg-gray-100', 'text-black', 'px-3', 'py-1', 'select-none', 'truncate']
 const reportLinkClasses = [
   'w-full',
   'inline-block',

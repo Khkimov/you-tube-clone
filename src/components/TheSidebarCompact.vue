@@ -3,11 +3,11 @@
     <section>
       <ul>
         <SidebarCompactNavItem
-            v-for="navItem in navItems"
-            :key="navItem.label"
-            :label="navItem.label"
-            :icon="navItem.icon"
-            :is-active="navItem.isActive"
+          v-for="navItem in navItems"
+          :key="navItem.label"
+          :label="navItem.label"
+          :icon="navItem.icon"
+          :is-active="navItem.isActive"
         />
       </ul>
     </section>
@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import {computed, ref} from "vue";
-import SidebarCompactNavItem from "./SidebarCompactNavItem.vue";
+import { computed, ref } from 'vue'
+import SidebarCompactNavItem from './SidebarCompactNavItem.vue'
 
 const navItems = ref([
   {
@@ -47,14 +47,6 @@ const navItems = ref([
 ])
 
 const classes = computed(() => {
-  return [
-    'min-h-screen',
-    'overflow-auto',
-    'fixed',
-    'top-0',
-    'pt-14',
-    'bg-white',
-    'z-20'
-  ]
+  return ['min-h-screen', 'overflow-auto', 'fixed', 'top-0', 'pt-14', 'bg-white', 'z-20']
 })
 </script>

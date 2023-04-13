@@ -1,31 +1,26 @@
 <template>
   <div class="relative -mt-1 ml-auto" ref="root">
-    <button
-        @click="toggle"
-        :class="buttonClasses">
-      <BaseIcon name="dotsVertical"/>
+    <button @click="toggle" :class="buttonClasses">
+      <BaseIcon name="dotsVertical" />
     </button>
     <transition
-        enter-active-class="transition ease-out duration-100"
-        enter-from-class="transition opacity-0 scale-95"
-        enter-to-class="transform opacity-100 scale-100"
-        leave-active-class="transition ease-in duration-75"
-        leave-from-class="transform opacity-100 scale-100"
-        leave-to-class="transform opacity-0 scale-95"
+      enter-active-class="transition ease-out duration-100"
+      enter-from-class="transition opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-from-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95"
     >
       <div
-          v-show="isOpen"
-          ref="dropdown"
-          tabindex="-1"
-          @keydown.esc="isOpen = false"
-          :class="dropdownClasses"
+        v-show="isOpen"
+        ref="dropdown"
+        tabindex="-1"
+        @keydown.esc="isOpen = false"
+        :class="dropdownClasses"
       >
         <section class="py-2">
           <ul>
-            <VideoItemDropdownListItem
-                label="Add to queue"
-                icon="menuAlt3"
-            />
+            <VideoItemDropdownListItem label="Add to queue" icon="menuAlt3" />
           </ul>
         </section>
       </div>
@@ -34,10 +29,9 @@
 </template>
 
 <script setup>
-
-import BaseIcon from "./BaseIcon.vue";
-import VideoItemDropdownListItem from "./VideoItemDropdownListItem.vue";
-import {computed, nextTick, onMounted, ref, watch} from "vue";
+import BaseIcon from './BaseIcon.vue'
+import VideoItemDropdownListItem from './VideoItemDropdownListItem.vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 
 const isOpen = ref(false)
 const root = ref(null)
@@ -45,7 +39,7 @@ const dropdown = ref(null)
 const positionClasses = ref([])
 
 onMounted(() => {
-  window.addEventListener('click', event => {
+  window.addEventListener('click', (event) => {
     if (!root.value.contains(event.target)) {
       isOpen.value = false
     }
@@ -54,29 +48,27 @@ onMounted(() => {
   // window.addEventListener('scroll', () => (isOpen.value = false))
 })
 
-watch(() => isOpen.value, (newValue, oldValue) => {
-  // document.body.classList.toggle('overflow-hidden')
+watch(
+  () => isOpen.value,
+  (newValue, oldValue) => {
+    // document.body.classList.toggle('overflow-hidden')
 
-  nextTick(() => isOpen.value && dropdown.value.focus())
-})
+    nextTick(() => isOpen.value && dropdown.value.focus())
+  }
+)
 
 const toggle = (event) => {
   isOpen.value = !isOpen.value
 
   if (isOpen.value) {
     nextTick(() => {
-    positionClasses.value = getPositionClasses(event)
+      positionClasses.value = getPositionClasses(event)
     })
   }
 }
 
 const getPositionClasses = (event) => {
-  return [
-      getTopClass(event),
-      getRightClass(event),
-      getBottomClass(event),
-      getLeftClass(event)
-  ]
+  return [getTopClass(event), getRightClass(event), getBottomClass(event), getLeftClass(event)]
 }
 
 const getTopClass = (event) => {
@@ -154,13 +146,13 @@ const buttonClasses = computed(() => {
     'hover:text-gray-700',
     'focus:outline-none',
     'group-hover:opacity-100',
-      isOpen.value ? 'opacity-100' : 'opacity-0'
+    isOpen.value ? 'opacity-100' : 'opacity-0'
   ]
 })
 
 const dropdownClasses = computed(() => {
   return [
-      'z-10',
+    'z-10',
     'absolute',
     // 'top-9',
     // '-right-full',
@@ -170,7 +162,7 @@ const dropdownClasses = computed(() => {
     'rounded',
     'shadow',
     'focus:outline-none',
-      ...positionClasses.value
+    ...positionClasses.value
   ]
 })
 </script>
