@@ -16,10 +16,11 @@
 import TheSearchInput from './TheSearchInput.vue'
 import TheSearchButton from './TheSearchButton.vue'
 import TheSearchResults from './TheSearchResults.vue'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
-const query = ref('')
-// const isSearchInputFocused = ref(false)
+const props = defineProps(['searchQuery'])
+const emit = defineEmits(['update-search-query'])
+const query = ref(props.searchQuery)
 const isSearchResultsShown = ref(false)
 const keywords = ref([
   'new york giants',
@@ -52,11 +53,14 @@ const trimmedQuery = computed(() => {
   return query.value.replace(/\s+/g, ' ').trim()
 })
 
-// const isSearchResultsShow = computed(() => {
-//   return isSearchInputFocused.value && results.value.length
-// })
-
 const toggleSearchResults = (isSearchInputActive) => {
   isSearchResultsShown.value = isSearchInputActive && results.value.length
 }
+
+watch(
+  () => query.value,
+  (newValue, oldValue) => {
+    emit('update-search-query', newValue)
+  }
+)
 </script>
