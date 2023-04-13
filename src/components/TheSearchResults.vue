@@ -1,8 +1,8 @@
 <template>
   <div :class="classes">
     <ul>
-      <li v-for="result in props.results" :key="result" :class="itemClasses">
-        {{ result }}
+      <li v-for="(text, id) in props.results" :key="text" :class="itemClasses(id)">
+        {{ text }}
       </li>
     </ul>
     <a href="#" :class="reportLinkClasses">Report search predictions</a>
@@ -10,8 +10,11 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
-  results: Array
+  results: Array,
+  activeResultId: null
 })
 
 const classes = [
@@ -25,7 +28,6 @@ const classes = [
   'shadow-md',
   'pt-4'
 ]
-const itemClasses = ['hover:bg-gray-100', 'text-black', 'px-3', 'py-1', 'select-none', 'truncate']
 const reportLinkClasses = [
   'w-full',
   'inline-block',
@@ -36,4 +38,15 @@ const reportLinkClasses = [
   'hover:text-black',
   'pr-2'
 ]
+
+const itemClasses = computed(() => {
+  return (resultId) => [
+    resultId === props.activeResultId ? 'bg-gray-100' : 'hover:bg-gray-100',
+    'text-black',
+    'px-3',
+    'py-1',
+    'select-none',
+    'truncate'
+  ]
+})
 </script>
