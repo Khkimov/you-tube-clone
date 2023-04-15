@@ -20,9 +20,7 @@
         @search-result-click="selectSearchResult"
       />
     </div>
-    <TheSearchButton
-        @click.stop="selectSearchResult"
-    />
+    <TheSearchButton @click.stop="selectSearchResult" />
   </div>
 </template>
 
@@ -30,14 +28,11 @@
 import TheSearchInput from './TheSearchInput.vue'
 import TheSearchButton from './TheSearchButton.vue'
 import TheSearchResults from './TheSearchResults.vue'
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-
-const props = defineProps(['searchQuery'])
-const emit = defineEmits(['update-search-query'])
+import { computed, onMounted, ref } from 'vue'
 
 const results = ref([])
-const query = ref(props.searchQuery)
-const activeQuery = ref(props.searchQuery)
+const query = ref('')
+const activeQuery = ref('')
 const activeSearchResultId = ref(null)
 const isSearchResultsShown = ref(false)
 const keywords = ref([
@@ -78,16 +73,13 @@ const toggleSearchResults = (isSearchInputActive) => {
   isSearchResultsShown.value = isSearchInputActive && results.value.length > 0
 }
 
-const handleClick = () => {
+const onClickAndResize = () => {
   toggleSearchResults(false)
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleClick)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClick)
+  window.addEventListener('click', onClickAndResize)
+  window.addEventListener('resize', onClickAndResize)
 })
 
 const handlePreviousSearchResult = () => {
@@ -107,13 +99,6 @@ const handleNextSearchResult = () => {
     toggleSearchResults(true)
   }
 }
-
-watch(
-  () => query.value,
-  (newValue, oldValue) => {
-    emit('update-search-query', newValue)
-  }
-)
 
 const makePreviousSearchResultActive = () => {
   if (activeSearchResultId.value === null) {

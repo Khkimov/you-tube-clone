@@ -2,18 +2,17 @@
   <header :class="classes">
     <div :class="['lg:w-1/4', 'flex', isMobileSearShown ? 'opacity-0' : 'opacity-100']">
       <div class="flex items-center xl:w-64 xl:bg-white pl-4">
-        <button class="mr-3 sm:ml-2 sm:mr-6 focus:outline-none" @click="$emit('toggleSidebar')">
+        <button class="mr-3 sm:ml-2 sm:mr-6 focus:outline-none" @click="emit('toggleSidebar')">
           <BaseIcon name="menu" />
         </button>
         <LogoMain />
       </div>
     </div>
-    <TheSearchMobile v-if="isMobileSearShown" @close="closeMobileSearch">
-      <TheSearch :search-query="searchQuery" @update-search-query="searchQuery = $event" />
-    </TheSearchMobile>
-    <TheSearchMain v-else>
-      <TheSearch :search-query="searchQuery" @update-search-query="searchQuery = $event" />
-    </TheSearchMain>
+    <TheSearchWrapper
+      v-show="isSearchShown"
+      :is-small-screen="isSmallScreen"
+      @close="closeMobileSearch"
+    />
     <div
       :class="[
         'flex',
@@ -47,18 +46,16 @@
 import TheDropdownApps from './TheDropdownApps.vue'
 import TheDropdownSettings from './TheDropdownSettings.vue'
 import LogoMain from './LogoMain.vue'
-import TheSearch from './TheSearch.vue'
-import TheSearchMobile from './TheSearchMobile.vue'
 import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
+import TheSearchWrapper from './TheSearchWrapper.vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import TheSearchMain from './TheSearchMain.vue'
 
+const emit = defineEmits(['toggleSidebar'])
 const isSmallScreen = ref(false)
 const isMobileSearchActive = ref(false)
 const classes = ref(['flex', 'justify-between', 'w-full', 'bg-white', 'bg-opacity-95'])
-const searchQuery = ref('')
 
 const onResize = () => {
   if (window.innerWidth < 640) {
@@ -73,6 +70,10 @@ const onResize = () => {
 const closeMobileSearch = () => {
   isMobileSearchActive.value = false
 }
+
+const isSearchShown = computed(() => {
+  return isMobileSearShown.value || !isSmallScreen.value
+})
 
 const isMobileSearShown = computed(() => {
   return isSmallScreen.value && isMobileSearchActive.value
