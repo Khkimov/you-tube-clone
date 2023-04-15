@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, inject, nextTick, onMounted, ref, watch } from 'vue'
 import BaseIcon from './BaseIcon.vue'
 
 const inputRef = ref(null)
@@ -39,10 +39,6 @@ onMounted(() => {
   }
 
   document.addEventListener('keydown', onKeydown)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeydown)
 })
 
 watch(

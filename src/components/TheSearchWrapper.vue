@@ -18,7 +18,7 @@
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 import TheSearch from './TheSearch.vue'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 const props = defineProps(['isSmallScreen'])
 const emit = defineEmits(['close'])
@@ -32,10 +32,6 @@ const onClick = (event) => {
 
 onMounted(() => {
   window.addEventListener('click', onClick)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('click', onClick)
 })
 
 const classes = computed(() => {

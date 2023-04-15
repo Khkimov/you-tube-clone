@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   text: String,
@@ -30,6 +30,7 @@ const props = defineProps({
   right: Boolean,
   left: Boolean
 })
+const isShown = ref(false)
 
 const getPositionClasses = () => {
   const topClass = props.top ? 'bottom-12' : 'top-14'
@@ -45,17 +46,18 @@ const getPositionClasses = () => {
   return [topClass, 'left-1/2', '-translate-x-1/2']
 }
 
-const isShown = ref(false)
-const classes = ref([
-  'bg-gray-600',
-  'bg-opacity-80',
-  'rounded-sm',
-  'text-white',
-  'text-xs',
-  'whitespace-nowrap',
-  'p-2',
-  'transform',
-  'absolute',
-  ...getPositionClasses()
-])
+const classes = computed(() => {
+  return [
+    'bg-gray-600',
+    'bg-opacity-80',
+    'rounded-sm',
+    'text-white',
+    'text-xs',
+    'whitespace-nowrap',
+    'p-2',
+    'transform',
+    'absolute',
+    ...getPositionClasses()
+  ]
+})
 </script>
