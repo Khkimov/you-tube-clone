@@ -1,8 +1,17 @@
 <template>
   <div :class="classes">
     <ul>
-      <li v-for="(text, id) in props.results" :key="text" :class="itemClasses(id)">
-        {{ text }}
+      <li
+        v-for="(text, id) in props.results"
+        :key="text"
+        :class="getItemClasses(id)"
+        @mouseenter="emit('search-result-mouseenter', id)"
+        @mouseleave="emit('search-result-mouseleave')"
+        @click.stop="emit('search-result-click')"
+      >
+        <span @mouseenter="emit('search-result-mouseenter', id)">
+          {{ text }}
+        </span>
       </li>
     </ul>
     <a href="#" :class="reportLinkClasses">Report search predictions</a>
@@ -10,12 +19,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-
 const props = defineProps({
   results: Array,
   activeResultId: null
 })
+const emit = defineEmits([
+  'search-result-mouseenter',
+  'search-result-mouseleave',
+  'search-result-click'
+])
 
 const classes = [
   'absolute',
@@ -39,14 +51,14 @@ const reportLinkClasses = [
   'pr-2'
 ]
 
-const itemClasses = computed(() => {
-  return (resultId) => [
-    resultId === props.activeResultId ? 'bg-gray-100' : 'hover:bg-gray-100',
+const getItemClasses = (resultId) => {
+  return [
+    resultId === props.activeResultId ? 'bg-gray-100' : 'bg-transparent',
     'text-black',
     'px-3',
     'py-1',
     'select-none',
     'truncate'
   ]
-})
+}
 </script>

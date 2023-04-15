@@ -8,15 +8,21 @@
         :has-results="results.length"
         @keyup.up="handlePreviousSearchResult"
         @keyup.down="handleNextSearchResult"
+        @enter="selectSearchResult"
         @keydown.up.prevent
       />
       <TheSearchResults
         v-show="isSearchResultsShown"
         :results="results"
         :active-result-id="activeSearchResultId"
+        @search-result-mouseenter="activeSearchResultId = $event"
+        @search-result-mouseleave="activeSearchResultId = null"
+        @search-result-click="selectSearchResult"
       />
     </div>
-    <TheSearchButton />
+    <TheSearchButton
+        @click.stop="selectSearchResult"
+    />
   </div>
 </template>
 
@@ -24,7 +30,7 @@
 import TheSearchInput from './TheSearchInput.vue'
 import TheSearchButton from './TheSearchButton.vue'
 import TheSearchResults from './TheSearchResults.vue'
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = defineProps(['searchQuery'])
 const emit = defineEmits(['update-search-query'])
@@ -69,12 +75,25 @@ const trimmedQuery = computed(() => {
 })
 
 const toggleSearchResults = (isSearchInputActive) => {
-  isSearchResultsShown.value = isSearchInputActive && results.value.length
+  isSearchResultsShown.value = isSearchInputActive && results.value.length > 0
 }
+
+const handleClick = () => {
+  toggleSearchResults(false)
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClick)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClick)
+})
 
 const handlePreviousSearchResult = () => {
   if (isSearchResultsShown.value) {
     makePreviousSearchResultActive()
+    updateQueryWithSearchResult()
   } else {
     toggleSearchResults(true)
   }
@@ -83,6 +102,7 @@ const handlePreviousSearchResult = () => {
 const handleNextSearchResult = () => {
   if (isSearchResultsShown.value) {
     makeNextSearchResultActive()
+    updateQueryWithSearchResult()
   } else {
     toggleSearchResults(true)
   }
@@ -103,8 +123,6 @@ const makePreviousSearchResultActive = () => {
   } else {
     activeSearchResultId.value--
   }
-
-  updateQueryWithSearchResult()
 }
 
 const makeNextSearchResultActive = () => {
@@ -115,8 +133,6 @@ const makeNextSearchResultActive = () => {
   } else {
     activeSearchResultId.value++
   }
-
-  updateQueryWithSearchResult()
 }
 
 const updateQueryWithSearchResult = () => {
@@ -125,5 +141,12 @@ const updateQueryWithSearchResult = () => {
   query.value = hasActiveSearchResult
     ? results.value[activeSearchResultId.value]
     : activeQuery.value
+}
+
+const selectSearchResult = () => {
+  query.value = activeSearchResultId.value ? results.value[activeSearchResultId.value] : query.value
+
+  toggleSearchResults(false)
+  updateSearchResults()
 }
 </script>

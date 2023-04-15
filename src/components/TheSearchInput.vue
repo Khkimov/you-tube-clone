@@ -8,8 +8,9 @@
       :value="props.query"
       @input="updateQuery($event.target.value)"
       @focus="setState(true)"
-      @blur="setState(false)"
+      @click.stop="setState(true)"
       @keyup.esc="handleEsc"
+      @keydown.enter="handleEnter"
     />
     <button
       class="absolute top-0 right-0 h-full px-3 focus:outline-none"
@@ -28,7 +29,7 @@ import BaseIcon from './BaseIcon.vue'
 const inputRef = ref(null)
 const isActiveInput = ref(false)
 const props = defineProps(['query', 'hasResults'])
-const emit = defineEmits(['update:query', 'change-state'])
+const emit = defineEmits(['update:query', 'change-state', 'enter'])
 
 onMounted(() => {
   if (window.innerWidth < 640) {
@@ -69,6 +70,14 @@ const handleEsc = () => {
   } else {
     inputRef.value.blur()
   }
+}
+
+const handleEnter = () => {
+  setState(false)
+
+  inputRef.value.blur()
+
+  emit('enter')
 }
 
 const clear = () => {
