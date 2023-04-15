@@ -50,12 +50,16 @@ import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 import TheSearchWrapper from './TheSearchWrapper.vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, provide, ref } from 'vue'
 
 const emit = defineEmits(['toggleSidebar'])
 const isSmallScreen = ref(false)
 const isMobileSearchActive = ref(false)
 const classes = ref(['flex', 'justify-between', 'w-full', 'bg-white', 'bg-opacity-95'])
+provide(
+  'isMobileSearchActive',
+  computed(() => isMobileSearchActive.value)
+)
 
 const onResize = () => {
   if (window.innerWidth < 640) {
