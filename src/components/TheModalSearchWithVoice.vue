@@ -2,7 +2,10 @@
   <BaseModal>
     <p class="text-2xl mb-52">{{ text }}</p>
     <div class="flex justify-center items-center">
-      <span v-show="isListening" :class="buttonAnimationClasses"></span>
+      <span
+          v-show="isStatus('listening', 'recording')"
+          :class="buttonAnimationClasses"
+      ></span>
       <button :class="buttonClasses" @click="toggleRecording">
         <BaseIcon name="microphone" />
       </button>
@@ -16,36 +19,42 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import BaseModal from './BaseModal.vue'
 import BaseIcon from './BaseIcon.vue'
 
-const isQuiet = ref(false)
-const isListening = ref(true)
-const isRecording = ref(false)
+const STATUS_IDLE = 'idle'
+const STATUS_LISTENING = 'listening'
+const STATUS_RECORDING = 'recording'
+const STATUS_QUIET = 'quiet'
+
+const status = ref(STATUS_LISTENING)
 const recordingTimeout = ref(null)
 
 const handleRecordingTimeout = () => {
-  if (isRecording.value || isRecording.value) {
+  if (isStatus(STATUS_LISTENING, STATUS_RECORDING)) {
     recordingTimeout.value = setTimeout(() => {
-      isQuiet.value = true
-      isListening.value = false
-      isRecording.value = false
+      updateStatus(STATUS_QUIET)
     }, 5000)
+  }
+}
+
+const updateStatus = (statusQuiet) => {
+  if (statusQuiet) {
+    status.value = statusQuiet
+  } else if (isStatus(STATUS_RECORDING)) {
+    status.value = STATUS_IDLE
+  } else if (isStatus(STATUS_LISTENING)) {
+    status.value = STATUS_RECORDING
+  } else {
+    status.value = STATUS_LISTENING
   }
 }
 
 const toggleRecording = () => {
   clearTimeout(recordingTimeout.value)
-
-  isQuiet.value = false
-
-  if (isRecording.value) {
-    isRecording.value = false
-    isListening.value = false
-  } else if (isListening.value) {
-    isRecording.value = true
-  } else {
-    isListening.value = true
-  }
-
+  updateStatus()
   handleRecordingTimeout()
+}
+
+const isStatus = (...statuses) => {
+  return statuses.includes(status.value)
 }
 
 onMounted(() => {
@@ -57,20 +66,23 @@ onBeforeUnmount(() => {
 })
 
 const text = computed(() => {
-  if (isQuiet.value) {
+  if (isStatus(STATUS_QUIET)) {
     return "Didn't hear that. Try again"
   }
 
-  if (isListening.value || isRecording.value) {
+  if (isStatus(STATUS_LISTENING, STATUS_RECORDING)) {
     return 'Listening...'
   }
 
   return 'Microphone off. Try again'
 })
 const buttonClasses = computed(() => {
+  const bgColorClass = isStatus(STATUS_LISTENING, STATUS_RECORDING) ? 'bg-red-600' : 'bg-gray-300'
+
+  const textColorClass = isStatus(STATUS_LISTENING, STATUS_RECORDING) ? 'text-white' : 'text-black'
   return [
-    isListening.value ? 'bg-red-600' : 'bg-gray-300',
-    isListening.value ? 'text-white' : 'text-black',
+    bgColorClass,
+    textColorClass,
     'w-16',
     'h-16',
     'mx-auto',
@@ -84,7 +96,7 @@ const buttonClasses = computed(() => {
 })
 const buttonHintClasses = computed(() => {
   return [
-    isListening.value ? 'invisible' : 'visible',
+    isStatus(STATUS_LISTENING, STATUS_RECORDING) ? 'invisible' : 'visible',
     'text-center',
     'text-sm',
     'text-gray-500 mt-4'
@@ -92,7 +104,7 @@ const buttonHintClasses = computed(() => {
 })
 const buttonAnimationClasses = computed(() => {
   return [
-    isRecording.value ? 'bg-gray-300' : 'border border-gray-300',
+    isStatus(STATUS_RECORDING) ? 'bg-gray-300' : 'border border-gray-300',
     'animate-ping',
     'absolute',
     'w-14',
