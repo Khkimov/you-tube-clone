@@ -7,11 +7,10 @@
     </BaseTooltip>
     <TheSearch />
     <BaseTooltip text="Search with your voice" :left="props.isSmallScreen">
-      <button class="p-2 focus:outline-none">
+      <button @click="emit('open-voice-modal')" class="p-2 focus:outline-none">
         <BaseIcon name="microphone" class="w-5 h-5" />
       </button>
     </BaseTooltip>
-    <BaseModal />
   </div>
 </template>
 
@@ -20,10 +19,9 @@ import { computed, onMounted, ref } from 'vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 import TheSearch from './TheSearch.vue'
-import BaseModal from './BaseModal.vue'
 
 const props = defineProps(['isSmallScreen'])
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'open-voice-modal'])
 const root = ref(null)
 
 const onClick = (event) => {
