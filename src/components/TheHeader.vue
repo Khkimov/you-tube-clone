@@ -31,7 +31,7 @@
     </div>
   </header>
   <teleport to="body">
-    <BaseModal v-if="isVoiceModalOpen" @close="isVoiceModalOpen = false" />
+    <TheModalSearchWithVoice v-if="isVoiceModalOpen" @close="isVoiceModalOpen = false" />
   </teleport>
 </template>
 
@@ -44,7 +44,7 @@ import ButtonLogin from './ButtonLogin.vue'
 import BaseIcon from './BaseIcon.vue'
 import BaseTooltip from './BaseTooltip.vue'
 import TheSearchWrapper from './TheSearchWrapper.vue'
-import BaseModal from './BaseModal.vue'
+import TheModalSearchWithVoice from './TheModalSearchWithVoice.vue'
 
 const emit = defineEmits(['toggleSidebar'])
 const isSmallScreen = ref(false)
