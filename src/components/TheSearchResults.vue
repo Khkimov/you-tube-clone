@@ -14,11 +14,24 @@
         </span>
       </li>
     </ul>
-    <a href="#" :class="reportLinkClasses">Report search predictions</a>
+    <a href="#" :class="reportLinkClasses" @click="openSearchPredictionsModal">
+      Report search predictions
+    </a>
+    <teleport to="body">
+      <TheModalSearchPredictions
+        v-if="isSearchPredictionsModalOpen"
+        @close="isSearchPredictionsModalOpen = false"
+      />
+    </teleport>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import TheModalSearchPredictions from './TheModalSearchPredictions.vue'
+
+const isSearchPredictionsModalOpen = ref(false)
+
 const props = defineProps({
   results: Array,
   activeResultId: null
@@ -60,5 +73,9 @@ const getItemClasses = (resultId) => {
     'select-none',
     'truncate'
   ]
+}
+
+const openSearchPredictionsModal = () => {
+  isSearchPredictionsModalOpen.value = true
 }
 </script>

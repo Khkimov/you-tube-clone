@@ -12,7 +12,7 @@
       <BaseModalOverlay v-if="isOpen" @click="close" />
     </transition>
     <div v-if="isOpen" class="relative bg-white w-2/3 m-8">
-      <div class="p-2 text-right">
+      <div v-if="props.withCloseButton" class="p-2 text-right">
         <BaseModalButtonClose @click="close" />
       </div>
       <div class="p-6">
@@ -28,6 +28,9 @@ import BaseModalButtonClose from './BaseModalButtonClose.vue'
 import BaseModalOverlay from './BaseModalOverlay.vue'
 
 const emit = defineEmits(['close'])
+const props = defineProps({
+  withCloseButton: Boolean
+})
 const modalRef = ref(null)
 const isOpen = ref(true)
 const classes = ref(['fixed', 'inset-0', 'z-30', 'flex', 'justify-center', 'items-start'])
