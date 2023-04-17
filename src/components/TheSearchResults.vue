@@ -20,6 +20,7 @@
     <teleport to="body">
       <TheModalSearchPredictions
         v-if="isSearchPredictionsModalOpen"
+        :search-predictions="props.results"
         @close="isSearchPredictionsModalOpen = false"
       />
     </teleport>
