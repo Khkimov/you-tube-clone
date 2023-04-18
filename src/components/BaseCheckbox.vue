@@ -13,7 +13,7 @@
 
 <script setup>
 const props = defineProps({
-  id: Number,
+  id: String,
   modelValue: Array
 })
 </script>
