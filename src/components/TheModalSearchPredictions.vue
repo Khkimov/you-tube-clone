@@ -10,6 +10,9 @@
       v-model="selectedSearchPredictionCategory"
       :categories="searchPredictionCategories"
     />
+    <div class="text-black text-sm mt-6">
+      <BaseTextarea v-model="searchPredictionDetails" />
+    </div>
     <template #footer="{ close }">
       <BaseButton @click="close" class="ml-auto">Cancel</BaseButton>
       <BaseButton class="ml-1 text-gray-400 cursor-auto" disabled> Report </BaseButton>
@@ -23,6 +26,7 @@ import BaseModal from './BaseModal.vue'
 import TheSearchPredictionsList from './TheSearchPredictionsList.vue'
 import BaseButton from './BaseButton.vue'
 import TheSearchPredictionCategories from './TheSearchPredictionCategories.vue'
+import BaseTextarea from './BaseTextarea.vue'
 
 const props = defineProps({
   searchPredictions: Array
@@ -36,4 +40,5 @@ const searchPredictionCategories = ref([
   'Dangerous and harmful activity',
   'Other'
 ])
+const searchPredictionDetails = ref('')
 </script>
