@@ -5,19 +5,14 @@
       v-model="selectedSearchPredictions"
       :search-predictions="props.searchPredictions"
     />
+    <p class="text-xs text-gray-600 mt-5">The selected predictions are:</p>
+    <TheSearchPredictionCategories
+      v-model="selectedSearchPredictionCategory"
+      :categories="searchPredictionCategories"
+    />
     <template #footer="{ close }">
-      <button
-        @click="close"
-        class="uppercase text-sm font-medium tracking-wider py-2.5 px-4 ml-auto mr-1 focus:outline-none"
-      >
-        Cancel
-      </button>
-      <button
-        class="uppercase text-sm font-medium tracking-wider py-2.5 px-4 ml-1 mr-1 focus:outline-none text-gray-400 cursor-auto"
-        disabled
-      >
-        Report
-      </button>
+      <BaseButton @click="close" class="ml-auto">Cancel</BaseButton>
+      <BaseButton class="ml-1 text-gray-400 cursor-auto" disabled> Report </BaseButton>
     </template>
   </BaseModal>
 </template>
@@ -26,9 +21,19 @@
 import { ref } from 'vue'
 import BaseModal from './BaseModal.vue'
 import TheSearchPredictionsList from './TheSearchPredictionsList.vue'
+import BaseButton from './BaseButton.vue'
+import TheSearchPredictionCategories from './TheSearchPredictionCategories.vue'
 
 const props = defineProps({
   searchPredictions: Array
 })
 const selectedSearchPredictions = ref([])
+const selectedSearchPredictionCategory = ref(null)
+const searchPredictionCategories = ref([
+  'Hateful',
+  'Sexually Explicit',
+  'Violent',
+  'Dangerous and harmful activity',
+  'Other'
+])
 </script>
