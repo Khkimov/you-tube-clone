@@ -1,7 +1,16 @@
-import { render } from '@testing-library/vue'
+import { render, screen } from '@testing-library/vue'
 import BaseButton from './BaseButton.vue'
 test('renders base button', () => {
-  const { debug } = render(BaseButton)
+  // given (arrange)
+  const options = {
+    slots: {
+      default: 'Test Button'
+    }
+  }
 
-  debug()
+  // when (act)
+  render(BaseButton, options)
+
+  // then (assert)
+  screen.getByText('Test Button')
 })
