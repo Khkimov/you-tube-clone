@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <img :src="`https://picsum.photos/seed/image${props.index}/720/404`" />
+    <img :src="`https://picsum.photos/seed/picsum${props.index}/720/404`" />
     <VideoItemThumbnailButton label="Watch later" icon="clock" class="top-0" />
     <VideoItemThumbnailButton label="Add to queue" icon="menuAlt3" class="top-8" />
     <span
