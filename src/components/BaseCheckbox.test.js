@@ -1,19 +1,25 @@
 import { render, screen } from '@testing-library/vue'
 import BaseCheckbox from './BaseCheckbox.vue'
 test('renders checked base checkbox with label', () => {
-  const label = 'Test Label'
-  render(BaseCheckbox, {
+  const value = 1
+  const label = 'Test Checkbox'
+  const options = {
     props: {
       id: 'checkbox',
-      value: 1,
-      modelValue: [1, 2, 3]
+      value,
+      modelValue: [value, 2, 3]
     },
     slots: {
       default: label
     }
-  })
+  }
+  render(BaseCheckbox, options)
 
-  const checkbox = screen.getByLabelText(label)
+  expect(screen.getByLabelText(label).checked).toBe(true)
+})
 
-  expect(checkbox.checked).toBe(true)
+test('renders unchecked base checkbox', () => {
+  render(BaseCheckbox)
+
+  expect(screen.getByRole('checkbox').checked).toBe(false)
 })
